@@ -36,10 +36,22 @@ export default defineNuxtConfig({
   },
   ui: {
     global: true,
+    primary: 'indigo',
   },
   app: {
     pageTransition: { name: 'page', mode: 'out-in' },
-    layoutTransition: { name: 'layout', mode: 'out-in' }
+    layoutTransition: { name: 'layout', mode: 'out-in' },
+    head: {
+      title: 'RhyseForge — AI-Powered Certification Exam Preparation',
+      meta: [
+        { name: 'description', content: 'Master professional certifications like AWS, Databricks, and SAP with RhyseForge — a premium AI-powered exam simulation platform.' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'charset', content: 'utf-8' }
+      ],
+      htmlAttrs: {
+        lang: 'en'
+      }
+    }
   },
   srcDir: '.',
   compatibilityDate: '2024-04-20',

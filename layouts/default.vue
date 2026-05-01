@@ -39,6 +39,7 @@
               color="gray" 
               variant="ghost" 
               size="md"
+              aria-label="Open mobile menu"
               @click="mobileMenuOpen = !mobileMenuOpen" 
             />
             

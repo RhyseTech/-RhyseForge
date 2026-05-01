@@ -1,32 +1,49 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-    <div class="sm:mx-auto sm:w-full sm:max-w-md text-center relative z-10">
-      <NuxtLink to="/" class="inline-flex items-center gap-2 mb-6">
-        <div class="bg-primary-500 rounded-lg p-1.5">
-          <UIcon name="i-heroicons-bolt-20-solid" class="text-white text-xl" />
-        </div>
-        <span class="text-xl font-bold text-primary-500">RhyseForge</span>
-      </NuxtLink>
-      <h2 class="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">
-        Welcome Back
-      </h2>
-      <p class="mt-2 text-sm text-gray-500">Sign in to continue your certification journey</p>
+  <div class="min-h-screen flex items-center py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300 relative overflow-hidden z-[1]">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute -top-20 -left-10 w-72 h-72 rounded-full bg-cyan-300/30 blur-[120px] dark:bg-cyan-500/18"></div>
+      <div class="absolute top-10 right-0 w-80 h-80 rounded-full bg-indigo-300/25 blur-[130px] dark:bg-indigo-500/18"></div>
     </div>
 
-    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
-      <UCard class="rounded-2xl md:rounded-3xl shadow-2xl ring-1 ring-gray-200 dark:ring-gray-800">
+    <div class="mx-auto w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
+      <div class="rounded-3xl border border-white/60 dark:border-white/10 bg-white/60 dark:bg-slate-900/45 backdrop-blur-xl shadow-[0_24px_50px_-30px_rgba(36,30,100,0.7)] p-7 md:p-10">
+        <NuxtLink to="/" class="inline-flex items-center gap-2 mb-6">
+          <div class="bg-gradient-to-br from-indigo-600 to-blue-600 rounded-lg p-1.5 shadow-md shadow-indigo-500/30">
+            <UIcon name="i-heroicons-bolt-20-solid" class="text-white text-xl" />
+          </div>
+          <span class="text-xl font-black text-indigo-600 dark:text-indigo-300">RhyseForge</span>
+        </NuxtLink>
+        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+          Welcome Back to the Royal Track
+        </h2>
+        <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+          Resume your certification journey with secure device-bound access and premium analytics.
+        </p>
+        <div class="mt-6 space-y-3">
+          <div class="rounded-2xl border border-white/70 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 px-4 py-3">
+            <p class="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400">Protected Access</p>
+            <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">Credential + Device Integrity</p>
+          </div>
+          <div class="rounded-2xl border border-white/70 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 px-4 py-3">
+            <p class="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400">Learning Power</p>
+            <p class="text-sm font-semibold text-slate-700 dark:text-slate-200">Practice + Mock + Progress Intelligence</p>
+          </div>
+        </div>
+      </div>
+
+      <UCard class="rounded-3xl border border-white/60 dark:border-white/10 bg-white/65 dark:bg-slate-900/50 backdrop-blur-xl shadow-[0_24px_50px_-30px_rgba(36,30,100,0.7)] p-2">
+        <h3 class="text-xl font-black text-slate-900 dark:text-white px-4 pt-4">Sign In</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-300 px-4 pb-3">Use your registered email and password.</p>
+
         <form class="space-y-5" @submit.prevent="handleLogin">
           <UFormGroup label="Email Address" name="email">
             <UInput v-model="email" type="email" placeholder="you@example.com" size="lg" class="rounded-xl" required />
           </UFormGroup>
 
           <UFormGroup label="Password" name="password">
-            <UInput v-model="password" type="password" placeholder="••••••••" size="lg" class="rounded-xl" required />
+            <UInput v-model="password" type="password" placeholder="********" size="lg" class="rounded-xl" required />
           </UFormGroup>
 
-          <!-- Error Message -->
           <div v-if="errorMsg" class="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
             <p class="text-sm text-red-600 dark:text-red-400 font-medium flex items-center gap-2">
               <UIcon name="i-heroicons-exclamation-triangle" />
@@ -34,7 +51,6 @@
             </p>
           </div>
 
-          <!-- Device Mismatch Warning -->
           <div v-if="isDeviceMismatch" class="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
             <p class="text-xs text-amber-700 dark:text-amber-400 font-medium flex items-start gap-2">
               <UIcon name="i-heroicons-shield-exclamation" class="flex-shrink-0 mt-0.5 text-base" />
@@ -47,25 +63,24 @@
           </UButton>
         </form>
 
-        <div class="mt-6 text-center border-t border-gray-100 dark:border-gray-800 pt-6">
+        <div class="mt-6 text-center border-t border-slate-200/80 dark:border-slate-700/70 pt-6">
           <p class="text-sm text-gray-500">
             Don't have an account?
             <NuxtLink to="/register" class="font-bold text-primary-500 hover:text-primary-600">Create Account</NuxtLink>
           </p>
         </div>
+
+        <div class="mt-4 text-center">
+          <NuxtLink to="/" class="text-sm font-medium text-gray-400 hover:text-primary-500 transition-colors">Back to home</NuxtLink>
+        </div>
       </UCard>
 
-      <div class="mt-4 text-center">
-        <NuxtLink to="/" class="text-sm font-medium text-gray-400 hover:text-primary-500 transition-colors">← Back to home</NuxtLink>
-      </div>
-
-      <!-- Device Security Notice -->
-      <div class="mt-6 p-4 bg-blue-50/50 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-900/30 text-center">
+      <div class="lg:col-span-2 p-4 bg-blue-50/60 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-900/30 text-center">
         <div class="flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 mb-1">
           <UIcon name="i-heroicons-finger-print" class="text-lg" />
           <span class="text-xs font-black uppercase tracking-widest">Device Protection</span>
         </div>
-        <p class="text-[11px] text-blue-500/70">Your subscription is securely bound to this device. Unauthorized sharing will be blocked automatically.</p>
+        <p class="text-[11px] text-blue-500/80">Your subscription is securely bound to this device. Unauthorized sharing will be blocked automatically.</p>
       </div>
     </div>
   </div>
@@ -99,7 +114,6 @@ const handleLogin = async () => {
     const msg = e?.data?.statusMessage || e?.message || 'Login failed. Please check your credentials.'
     errorMsg.value = msg
 
-    // Detect device mismatch errors to show extra guidance
     if (msg.toLowerCase().includes('device') || msg.toLowerCase().includes('bound')) {
       isDeviceMismatch.value = true
     }

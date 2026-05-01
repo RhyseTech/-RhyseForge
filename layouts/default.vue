@@ -1,25 +1,31 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
-    <nav class="border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md sticky top-0 z-50">
+  <div class="min-h-screen transition-colors duration-300 relative z-[1]">
+    <nav class="sticky top-0 z-50 py-3">
       <UContainer>
-        <div class="flex justify-between h-16 items-center">
+        <div class="flex justify-between items-center rounded-2xl border border-white/70 dark:border-white/10 bg-white/70 dark:bg-slate-900/55 backdrop-blur-xl px-4 md:px-6 h-16 shadow-[0_20px_40px_-24px_rgba(37,30,95,0.45)]">
           <div class="flex items-center gap-4 md:gap-8">
             <NuxtLink to="/" class="flex items-center gap-2 group flex-shrink-0">
-              <div class="bg-primary-500 rounded-lg p-1.5 group-hover:rotate-12 transition-transform">
+              <div class="bg-gradient-to-br from-indigo-600 to-blue-600 rounded-lg p-1.5 group-hover:rotate-12 transition-transform shadow-lg shadow-indigo-500/25">
                 <UIcon name="i-heroicons-bolt-20-solid" class="text-white text-xl" />
               </div>
-              <span class="text-lg md:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-blue-600 dark:from-primary-400 dark:to-blue-400">
+              <span class="text-lg md:text-xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-blue-700 dark:from-indigo-300 dark:to-cyan-200">
                 RhyseForge
               </span>
             </NuxtLink>
             
             <!-- Desktop Nav -->
-            <div class="hidden md:flex items-center gap-1">
-              <UButton variant="ghost" color="gray" @click="handleAction('/')">Home</UButton>
-              <UButton v-if="data?.user?.role === 'ADMIN'" variant="ghost" color="primary" @click="handleAction('/admin/dashboard')" icon="i-heroicons-shield-check">Admin Panel</UButton>
-              <UButton v-else variant="ghost" color="gray" @click="handleAction('/dashboard')">My Dashboard</UButton>
-              <UButton variant="ghost" color="gray" @click="handleAction('/leaderboard')">Leaderboard</UButton>
-              <UButton variant="ghost" color="gray" @click="handleAction('/pricing')">Pricing</UButton>
+            <div class="hidden md:flex items-center gap-2">
+              <UButton
+                v-for="item in navItems"
+                :key="item.to"
+                variant="ghost"
+                :color="route.path === item.to ? 'primary' : 'gray'"
+                class="rounded-xl font-bold"
+                :icon="item.icon"
+                @click="handleAction(item.to)"
+              >
+                {{ item.label }}
+              </UButton>
             </div>
           </div>
 
@@ -62,8 +68,9 @@
 
       <!-- Mobile Slide-Down Menu -->
       <Transition name="slide">
-        <div v-if="mobileMenuOpen" class="md:hidden border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl">
-          <div class="px-4 py-4 space-y-1">
+        <div v-if="mobileMenuOpen" class="md:hidden mt-2">
+          <UContainer>
+            <div class="rounded-2xl border border-white/70 dark:border-white/10 bg-white/85 dark:bg-slate-900/75 backdrop-blur-xl shadow-2xl px-4 py-4 space-y-1">
             <button class="mobile-nav-link w-full text-left" @click="handleAction('/'); mobileMenuOpen = false">
               <UIcon name="i-heroicons-home" /> Home
             </button>
@@ -88,6 +95,7 @@
               </button>
             </div>
           </div>
+          </UContainer>
         </div>
       </Transition>
     </nav>
@@ -96,18 +104,18 @@
       <slot />
     </main>
 
-    <footer class="mt-20 border-t border-gray-200 dark:border-gray-800 py-8 md:py-12">
+    <footer class="mt-20 py-8 md:py-12">
       <UContainer>
-        <div class="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-8 text-sm text-gray-500 dark:text-gray-400">
+        <div class="rounded-3xl border border-white/60 dark:border-white/10 bg-white/65 dark:bg-slate-900/50 backdrop-blur-xl px-6 py-6 md:px-8 md:py-8 shadow-[0_24px_50px_-30px_rgba(39,33,98,0.6)] flex flex-col md:flex-row justify-between items-center gap-4 md:gap-8 text-sm text-slate-600 dark:text-slate-300">
           <div class="flex items-center gap-2">
-            <UIcon name="i-heroicons-bolt-20-solid" class="text-primary-500" />
-            <span class="font-semibold text-gray-900 dark:text-white">RhyseForge</span>
-            <span>&copy; 2024. All rights reserved.</span>
+            <UIcon name="i-heroicons-bolt-20-solid" class="text-indigo-500" />
+            <span class="font-black text-slate-900 dark:text-white">RhyseForge</span>
+            <span>&copy; 2026. All rights reserved.</span>
           </div>
-          <div class="flex gap-4 md:gap-6 text-xs md:text-sm">
-            <NuxtLink to="/pricing" class="hover:text-primary-500 transition-colors">Pricing</NuxtLink>
-            <NuxtLink to="/privacy-policy" class="hover:text-primary-500 transition-colors">Privacy Policy</NuxtLink>
-            <NuxtLink to="/terms-of-service" class="hover:text-primary-500 transition-colors">Terms of Service</NuxtLink>
+          <div class="flex gap-4 md:gap-6 text-xs md:text-sm font-semibold">
+            <NuxtLink to="/pricing" class="hover:text-indigo-500 transition-colors">Pricing</NuxtLink>
+            <NuxtLink to="/privacy-policy" class="hover:text-indigo-500 transition-colors">Privacy Policy</NuxtLink>
+            <NuxtLink to="/terms-of-service" class="hover:text-indigo-500 transition-colors">Terms of Service</NuxtLink>
           </div>
         </div>
       </UContainer>
@@ -118,9 +126,25 @@
 <script setup>
 const { status, data, signOut } = useAuth()
 const router = useRouter()
+const route = useRoute()
 const mobileMenuOpen = ref(false)
 
 const isGuest = computed(() => status.value !== 'authenticated')
+
+const navItems = computed(() => {
+  const list = [{ label: 'Home', to: '/', icon: 'i-heroicons-home' }]
+
+  if (data.value?.user?.role === 'ADMIN') {
+    list.push({ label: 'Admin Panel', to: '/admin/dashboard', icon: 'i-heroicons-shield-check' })
+  } else {
+    list.push({ label: 'My Dashboard', to: '/dashboard', icon: 'i-heroicons-squares-2x2' })
+  }
+
+  list.push({ label: 'Leaderboard', to: '/leaderboard', icon: 'i-heroicons-trophy' })
+  list.push({ label: 'Pricing', to: '/pricing', icon: 'i-heroicons-credit-card' })
+
+  return list
+})
 
 const handleAction = (url) => {
   if (status.value === 'authenticated') {

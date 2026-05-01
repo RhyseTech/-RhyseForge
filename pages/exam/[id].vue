@@ -1,5 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 py-8">
+  <div
+    class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300"
+    :class="isStarted && !isFinished ? 'py-2 md:py-3' : 'py-8'"
+  >
     <UContainer>
       <!-- Loading State -->
       <div v-if="pending" class="flex flex-col justify-center items-center h-[60vh]">
@@ -152,14 +155,14 @@
       </div>
       
       <!-- Ongoing Exam -->
-      <div v-else-if="!isFinished && currentQuestion">
-        <div class="mb-8 max-w-3xl mx-auto">
-          <div class="flex justify-between items-end mb-4">
+      <div v-else-if="!isFinished && currentQuestion" class="max-w-6xl mx-auto h-[calc(100vh-6.5rem)] flex flex-col">
+        <div class="mb-2">
+          <div class="flex justify-between items-end mb-1.5">
             <div>
               <p class="text-xs font-black text-primary-500 uppercase tracking-widest mb-1">
                 {{ sessionMode === 'mock' ? '🔥 Mock Exam Mode' : '🎓 Practice Session' }}
               </p>
-              <h2 class="text-3xl font-black text-gray-900 dark:text-white">
+              <h2 class="text-xl md:text-3xl font-black text-gray-900 dark:text-white">
                 Question <span class="text-primary-500">{{ currentIndex + 1 }}</span> <span class="text-gray-300 dark:text-gray-700 font-light">of</span> {{ questions.length }}
               </h2>
             </div>
@@ -182,22 +185,22 @@
                <span class="text-sm font-bold text-gray-400">{{ Math.round((currentIndex / questions.length) * 100) }}% Complete</span>
             </div>
           </div>
-          <UProgress :value="(currentIndex / questions.length) * 100" color="primary" size="md" class="rounded-full shadow-inner" />
+          <UProgress :value="(currentIndex / questions.length) * 100" color="primary" size="sm" class="rounded-full shadow-inner" />
         </div>
 
-        <div class="max-w-3xl mx-auto space-y-6">
-          <UCard class="shadow-xl rounded-3xl border-none ring-1 ring-gray-200 dark:ring-gray-800">
-            <div class="text-xl leading-relaxed text-gray-800 dark:text-gray-100 mb-8 font-semibold whitespace-pre-wrap">
+        <div class="flex-1 min-h-0 space-y-2 pb-16 md:pb-20">
+          <UCard class="h-full shadow-xl rounded-3xl border-none ring-1 ring-gray-200 dark:ring-gray-800 flex flex-col p-4 md:p-5">
+            <div class="text-base md:text-[1.5rem] leading-snug text-gray-800 dark:text-gray-100 mb-3 font-semibold whitespace-pre-wrap">
               {{ currentQuestion.question }}
             </div>
 
-            <div class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 flex-1 content-start">
               <div 
                 v-for="(option, index) in currentQuestion.options" 
                 :key="index"
                 @click="handleAnswerSelection(currentQuestion.id, index)"
                 :class="[
-                  'p-5 border-2 rounded-2xl transition-all duration-300 relative overflow-hidden group',
+                  'p-2.5 md:p-3 border-2 rounded-2xl transition-all duration-300 relative overflow-hidden group',
                   // Interaction styling
                   answers[currentQuestion.id] === undefined 
                     ? 'border-gray-100 dark:border-gray-800 hover:border-primary-400 dark:hover:border-primary-600 cursor-pointer bg-white dark:bg-gray-900 shadow-sm hover:shadow-xl hover:scale-[1.01]' 
@@ -218,7 +221,7 @@
               >
                 <div class="flex items-center relative z-10">
                   <div 
-                    class="w-12 h-12 rounded-xl border-2 flex items-center justify-center mr-5 transition-all duration-300 font-black text-lg"
+                    class="w-9 h-9 rounded-xl border-2 flex items-center justify-center mr-2.5 transition-all duration-300 font-black text-base"
                     :class="[
                       answers[currentQuestion.id] === undefined ? 'border-gray-200 text-gray-400 group-hover:border-primary-400 group-hover:text-primary-500' : '',
                       answers[currentQuestion.id] !== undefined 
@@ -243,7 +246,7 @@
                        {{ String.fromCharCode(65 + index) }}
                     </template>
                   </div>
-                  <span class="flex-1 text-gray-700 dark:text-gray-200 font-bold text-lg leading-snug">{{ option }}</span>
+                  <span class="flex-1 text-gray-700 dark:text-gray-200 font-bold text-base md:text-[1.05rem] leading-snug">{{ option }}</span>
                 </div>
                 <!-- Selection Indicator -->
                 <div v-if="answers[currentQuestion.id] === index" class="absolute inset-0 bg-primary-500/5 dark:bg-primary-400/5 pointer-events-none"></div>
@@ -253,7 +256,7 @@
 
           <!-- Explanation Slide-In -->
           <Transition name="fade">
-            <div v-if="answers[currentQuestion.id] !== undefined && sessionMode === 'practice' && currentQuestion.explanation" class="p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-none ring-1 ring-gray-200 dark:ring-gray-700">
+            <div v-if="answers[currentQuestion.id] !== undefined && sessionMode === 'practice' && currentQuestion.explanation" class="p-5 bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border-none ring-1 ring-gray-200 dark:ring-gray-700 max-h-44 overflow-auto">
               <div class="flex items-start gap-4">
                 <div class="flex-shrink-0 w-12 h-12 rounded-2xl bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center text-yellow-600">
                   <UIcon name="i-heroicons-light-bulb" class="text-3xl" />
@@ -268,38 +271,45 @@
             </div>
           </Transition>
 
-          <!-- Navigation Controls -->
-          <div class="flex justify-between items-center pt-4">
-            <UButton 
-              v-if="currentIndex > 0" 
-              @click="handlePrev" 
-              color="gray" 
-              variant="ghost" 
-              size="lg" 
-              class="rounded-xl px-6"
-              icon="i-heroicons-arrow-left"
-            >
-              Previous
-            </UButton>
-            <div v-else></div>
+        </div>
 
-            <div class="flex gap-3">
-               <UButton 
-                v-if="currentIndex < questions.length - 1" 
-                @click="handleNext" 
-                color="primary" 
-                size="xl" 
-                class="rounded-xl px-10 font-bold shadow-lg h-14"
+        <!-- Sticky Bottom Controls -->
+        <div class="fixed bottom-1.5 left-0 right-0 z-40 px-2 md:px-5">
+          <div class="max-w-6xl mx-auto rounded-2xl border border-white/60 dark:border-white/10 bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl shadow-[0_18px_36px_-22px_rgba(26,23,78,0.8)] p-2 md:p-3">
+            <div class="flex items-center justify-between gap-2">
+              <UButton
+                v-if="currentIndex > 0"
+                @click="handlePrev"
+                color="gray"
+                variant="soft"
+                size="lg"
+                class="rounded-xl px-4 md:px-6 font-bold"
+                icon="i-heroicons-arrow-left"
+              >
+                Previous
+              </UButton>
+              <div v-else class="w-[112px] md:w-[128px]"></div>
+
+              <div class="text-[11px] md:text-xs font-black uppercase tracking-widest text-gray-500 dark:text-gray-300">
+                {{ currentIndex + 1 }} / {{ questions.length }}
+              </div>
+
+              <UButton
+                v-if="currentIndex < questions.length - 1"
+                @click="handleNext"
+                color="primary"
+                size="lg"
+                class="rounded-xl px-6 md:px-8 font-black shadow-lg"
                 trailing-icon="i-heroicons-arrow-right"
               >
                 Next
               </UButton>
-              <UButton 
-                v-else 
-                @click="finishExam(70)" 
-                color="green" 
-                size="xl" 
-                class="rounded-xl px-12 font-black shadow-lg h-14"
+              <UButton
+                v-else
+                @click="finishExam(70)"
+                color="green"
+                size="lg"
+                class="rounded-xl px-6 md:px-8 font-black shadow-lg"
                 icon="i-heroicons-flag"
               >
                 Submit Exam

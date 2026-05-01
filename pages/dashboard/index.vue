@@ -1,20 +1,40 @@
 <template>
-  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 py-8">
+  <div class="min-h-screen transition-colors duration-300 py-8 relative overflow-hidden z-[1]">
+    <div class="pointer-events-none absolute inset-0">
+      <div class="absolute -top-24 -left-12 w-80 h-80 rounded-full bg-cyan-300/25 blur-[120px] dark:bg-cyan-500/18"></div>
+      <div class="absolute top-6 right-0 w-96 h-96 rounded-full bg-indigo-300/25 blur-[130px] dark:bg-indigo-500/18"></div>
+    </div>
     <UContainer>
-      <div class="flex justify-between items-center mb-8">
+      <div class="relative z-10 rounded-3xl border border-white/65 dark:border-white/10 bg-white/65 dark:bg-slate-900/50 backdrop-blur-xl shadow-[0_24px_46px_-28px_rgba(37,31,98,0.6)] p-6 md:p-8 mb-8">
+        <div class="flex justify-between items-center mb-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white">My Dashboard</h1>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Track your progress, streaks, and review past exams.</p>
+          <h1 class="text-3xl md:text-4xl font-black tracking-tight text-slate-900 dark:text-white">My Royal Dashboard</h1>
+          <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">Track your mastery, momentum, and certification readiness.</p>
         </div>
         <div class="flex gap-2">
-          <UButton color="white" variant="soft" to="/profile" icon="i-heroicons-user">Profile</UButton>
-          <UButton color="primary" variant="soft" to="/">Browse Catalog</UButton>
+          <UButton color="white" class="rounded-xl font-bold" variant="soft" to="/profile" icon="i-heroicons-user">Profile</UButton>
+          <UButton color="primary" class="rounded-xl font-bold" variant="soft" to="/">Browse Catalog</UButton>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="rounded-2xl border border-white/70 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 p-3">
+            <p class="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Current Streak</p>
+            <p class="text-xl font-black text-slate-900 dark:text-white">{{ studyStreak }} days</p>
+          </div>
+          <div class="rounded-2xl border border-white/70 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 p-3">
+            <p class="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Sessions Logged</p>
+            <p class="text-xl font-black text-slate-900 dark:text-white">{{ sessions?.length || 0 }}</p>
+          </div>
+          <div class="rounded-2xl border border-white/70 dark:border-white/10 bg-white/70 dark:bg-slate-900/45 p-3">
+            <p class="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">Average Score</p>
+            <p class="text-xl font-black text-slate-900 dark:text-white">{{ avgScore }}%</p>
+          </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 relative z-10">
         <!-- Streak Widget -->
-        <UCard class="bg-gradient-to-br from-orange-500 to-red-600 text-white border-none">
+        <UCard class="bg-gradient-to-br from-amber-500 to-orange-600 text-white border-none rounded-3xl shadow-[0_24px_40px_-24px_rgba(194,95,18,0.8)]">
           <div class="flex items-center space-x-4">
             <UIcon name="i-heroicons-fire" class="text-5xl opacity-80" />
             <div>
@@ -25,7 +45,7 @@
         </UCard>
         
         <!-- Total Attempts -->
-        <UCard class="bg-gradient-to-br from-blue-500 to-cyan-600 text-white border-none">
+        <UCard class="bg-gradient-to-br from-indigo-600 to-blue-700 text-white border-none rounded-3xl shadow-[0_24px_40px_-24px_rgba(32,57,153,0.8)]">
           <div class="flex items-center space-x-4">
             <UIcon name="i-heroicons-academic-cap" class="text-5xl opacity-80" />
             <div>
@@ -36,7 +56,7 @@
         </UCard>
 
         <!-- Average Score -->
-        <UCard class="bg-gradient-to-br from-green-500 to-emerald-600 text-white border-none">
+        <UCard class="bg-gradient-to-br from-emerald-500 to-green-600 text-white border-none rounded-3xl shadow-[0_24px_40px_-24px_rgba(18,128,89,0.8)]">
           <div class="flex items-center space-x-4">
             <UIcon name="i-heroicons-chart-bar" class="text-5xl opacity-80" />
             <div>
@@ -47,18 +67,18 @@
         </UCard>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
         <!-- Recent History -->
-        <UCard class="lg:col-span-2">
+        <UCard class="lg:col-span-2 rounded-3xl border border-white/65 dark:border-white/10 bg-white/65 dark:bg-slate-900/50 backdrop-blur-xl">
           <template #header>
-            <h3 class="text-xl font-bold">Recent Activity</h3>
+            <h3 class="text-xl font-black text-slate-900 dark:text-white">Recent Activity</h3>
           </template>
           
           <div v-if="pending" class="flex justify-center p-4">
             <UIcon name="i-heroicons-arrow-path" class="animate-spin text-2xl text-primary-500" />
           </div>
           
-          <div v-else-if="!sessions || sessions.length === 0" class="text-center p-8 text-gray-500">
+          <div v-else-if="!sessions || sessions.length === 0" class="text-center p-8 text-slate-500 dark:text-slate-400">
             No exams taken yet. Start practicing!
           </div>
 
@@ -76,9 +96,9 @@
         </UCard>
 
         <!-- Certification Readiness -->
-        <UCard>
+        <UCard class="rounded-3xl border border-white/65 dark:border-white/10 bg-white/65 dark:bg-slate-900/50 backdrop-blur-xl">
           <template #header>
-            <h3 class="text-xl font-bold">Certification Readiness</h3>
+            <h3 class="text-xl font-black text-slate-900 dark:text-white">Certification Readiness</h3>
           </template>
           
           <div v-if="examMastery.length === 0" class="flex flex-col items-center justify-center py-10 opacity-40">
@@ -89,8 +109,8 @@
           <div v-else class="space-y-6">
             <div v-for="exam in examMastery" :key="exam.title">
               <div class="flex justify-between mb-2">
-                <span class="text-xs font-black text-gray-400 uppercase tracking-tight truncate max-w-[150px]">{{ exam.title }}</span>
-                <span class="text-xs font-black" :class="`text-${exam.color}-500`">{{ Math.round(exam.score) }}%</span>
+                <span class="text-xs font-black text-slate-400 uppercase tracking-tight truncate max-w-[150px]">{{ exam.title }}</span>
+                <span class="text-xs font-black" :class="scoreTextClass(exam.color)">{{ Math.round(exam.score) }}%</span>
               </div>
               <UProgress :value="exam.score" :color="exam.color" size="sm" class="rounded-full" />
             </div>
@@ -184,6 +204,12 @@ const studyStreak = computed(() => {
   }
   return streak
 })
+
+const scoreTextClass = (color) => {
+  if (color === 'green') return 'text-green-500'
+  if (color === 'yellow') return 'text-amber-500'
+  return 'text-red-500'
+}
 </script>
 
 <style scoped>

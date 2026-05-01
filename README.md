@@ -202,7 +202,7 @@ RhyseForge features a state-of-the-art **Device-Locked Subscription System** to 
 | Plan | Price | Details |
 |---|---|---|
 | **Beginning** | **₹200**/module | Access to 1 certification exam of your choice. Unlimited practice & mock exams. |
-| **Advanced** ⭐ | **₹500**/lifetime | **All current & future modules.** Priority content access. Advanced analytics. |
+| **Advanced**  | **₹500**/lifetime | **All current & future modules.** Priority content access. Advanced analytics. |
 | **Enterprise** | **₹5,000**/license | Full source code. White-label branding. Deploy on your infrastructure. |
 
 ---

@@ -46,7 +46,11 @@ export default defineNuxtConfig({
       meta: [
         { name: 'description', content: 'Master professional certifications like AWS, Databricks, and SAP with RhyseForge — a premium AI-powered exam simulation platform.' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'charset', content: 'utf-8' }
+        { name: 'charset', content: 'utf-8' },
+        { property: 'og:title', content: 'RhyseForge — AI-Powered Certification Exam Preparation' },
+        { property: 'og:description', content: 'Master professional certifications with high-confidence practice modules and deep mock analysis.' },
+        { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content: 'summary_large_image' }
       ],
       htmlAttrs: {
         lang: 'en'

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rhyseforge-new.netlify.app/sitemap.xml

@@ -129,6 +129,13 @@
 import { computed, watchEffect } from 'vue'
 import { useFetch, useRouter } from '#app'
 
+useHead({
+  title: 'Dashboard — My Certification Progress',
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' }
+  ]
+})
+
 const { status, data: authData } = useAuth()
 const router = useRouter()
 

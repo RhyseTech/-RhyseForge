@@ -190,6 +190,13 @@
 <script setup>
 import { useFetch } from '#app'
 
+useHead({
+  title: 'RhyseForge — Elite Certification Exam Preparation',
+  meta: [
+    { name: 'description', content: 'Master AWS, Azure, Databricks, and SAP certifications with RhyseForge. AI-powered practice modules, mock exams, and performance tracking.' }
+  ]
+})
+
 const { data, pending, error } = useFetch('/api/exams')
 const { status, data: authData } = useAuth()
 const router = useRouter()

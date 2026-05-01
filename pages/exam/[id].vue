@@ -447,6 +447,13 @@ const user = computed(() => authData.value?.user)
 const route = useRoute()
 const examId = route.params.id
 
+useHead({
+  title: computed(() => (exam.value?.title ? `${exam.value.title} — Session` : 'Exam Session')),
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' }
+  ]
+})
+
 // Setup States
 const isStarted = ref(false)
 const isStarting = ref(false)

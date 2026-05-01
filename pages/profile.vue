@@ -32,6 +32,7 @@
                 <UAvatar 
                   :src="user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'Felix'}`"
                   size="3xl"
+                  alt="User profile picture"
                   class="ring-8 ring-white dark:ring-gray-800 shadow-2xl w-40 h-40 object-cover overflow-hidden"
                 />
                 
@@ -98,9 +99,9 @@
                 </div>
                 
                 <div v-if="editForm.image" class="flex items-center gap-3 p-3 bg-gray-100 dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700">
-                   <UAvatar :src="editForm.image" size="sm" />
+                   <UAvatar :src="editForm.image" size="sm" alt="Profile preview" />
                    <p class="text-xs font-bold text-gray-500 truncate max-w-[150px]">New Profile Photo Selected</p>
-                   <UButton color="red" variant="ghost" icon="i-heroicons-trash" size="xs" @click="editForm.image = null" />
+                   <UButton color="red" variant="ghost" icon="i-heroicons-trash" size="xs" aria-label="Remove photo" @click="editForm.image = null" />
                 </div>
 
                 <div class="flex items-center gap-3">
@@ -295,6 +296,13 @@
 </template>
 
 <script setup>
+useHead({
+  title: 'My Profile — RhyseForge',
+  meta: [
+    { name: 'robots', content: 'noindex, nofollow' }
+  ]
+})
+
 const { data: user, refresh } = useFetch('/api/user/me')
 const toast = useToast()
 const fileInput = ref(null)

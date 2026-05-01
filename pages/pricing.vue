@@ -380,6 +380,13 @@
 </template>
 
 <script setup>
+useHead({
+  title: 'Pricing — Choose Your Forge Plan',
+  meta: [
+    { name: 'description', content: 'Explore RhyseForge pricing plans. From single module access to lifetime all-access passes and enterprise licenses.' }
+  ]
+})
+
 const { status, data, getSession } = useAuth()
 const { getDeviceId } = useDeviceFingerprint()
 const toast = useToast()

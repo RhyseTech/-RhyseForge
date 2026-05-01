@@ -48,7 +48,7 @@
               <UDropdown :items="userMenuItems" :popper="{ placement: 'bottom-end' }">
                 <UAvatar 
                   :src="data?.user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${data?.user?.name || 'Felix'}`"
-                  alt="Profile"
+                  alt="User profile"
                   size="sm"
                   class="cursor-pointer border-2 border-primary-500/20"
                 />

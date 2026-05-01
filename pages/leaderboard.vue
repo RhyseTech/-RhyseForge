@@ -25,6 +25,7 @@
              <UAvatar 
                :src="leaderboard[1].image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${leaderboard[1].name}`" 
                size="xl" 
+               alt="Second place candidate"
                class="ring-4 ring-gray-300 dark:ring-gray-700 w-20 h-20 shadow-xl group-hover:scale-110 transition-transform" 
              />
              <div class="absolute -top-3 -right-3 bg-gray-200 dark:bg-gray-700 w-8 h-8 rounded-full border-4 border-white dark:border-gray-900 flex items-center justify-center font-black text-xs">2</div>
@@ -43,6 +44,7 @@
              <UAvatar 
                :src="leaderboard[0].image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${leaderboard[0].name}`" 
                size="3xl" 
+               alt="First place candidate"
                class="ring-8 ring-yellow-400 w-28 h-28 shadow-2xl group-hover:scale-110 transition-transform relative z-10" 
              />
              <div class="absolute -top-4 -right-4 bg-yellow-400 w-12 h-12 rounded-full border-4 border-white dark:border-gray-900 flex items-center justify-center font-black text-xl text-white shadow-xl rotate-12">
@@ -67,6 +69,7 @@
              <UAvatar 
                :src="leaderboard[2].image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${leaderboard[2].name}`" 
                size="xl" 
+               alt="Third place candidate"
                class="ring-4 ring-orange-300 dark:ring-orange-800/40 w-16 h-16 shadow-xl group-hover:scale-110 transition-transform" 
              />
              <div class="absolute -top-2 -right-2 bg-orange-200 dark:bg-orange-800/60 w-7 h-7 rounded-full border-4 border-white dark:border-gray-900 flex items-center justify-center font-black text-[10px]">3</div>
@@ -102,6 +105,7 @@
               <UAvatar 
                 :src="row.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${row.name}`" 
                 size="md" 
+                alt="Candidate avatar"
                 class="ring-2 ring-gray-100 dark:ring-gray-800"
               />
               <div>
@@ -131,6 +135,13 @@
 </template>
 
 <script setup>
+useHead({
+  title: 'Leaderboard — Hall of Forge Elite',
+  meta: [
+    { name: 'description', content: 'See the global rankings of the top certification candidates on RhyseForge.' }
+  ]
+})
+
 const columns = [
   { key: 'rank', label: 'Rank' },
   { key: 'user', label: 'Candidate' },

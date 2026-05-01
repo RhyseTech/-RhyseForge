@@ -40,6 +40,8 @@ The platform includes a complete **Admin Panel** to manage exams, an **AI-Powere
 | **Bulk Question Upload** | AI-powered parser that ingests `.js`, `.json`, and non-standard data files |
 | **User Management** | View and manage all registered candidates |
 | **Question Review** | Approve, reject, or edit AI-parsed questions before publishing |
+| **Subscription Hub** | Review and approve/reject manual payment requests from students |
+| **Module Requests** | Track and respond to user requests for new certification modules |
 
 ### 🚀 Platform Capabilities
 - 🔒 **24-Hour Persistent Sessions** — Stay logged in across browser restarts
@@ -73,6 +75,10 @@ RhyseForge/
 │   ├── pricing.vue           # 3-tier pricing page
 │   ├── leaderboard.vue       # Global competitive rankings
 │   ├── profile.vue           # User identity & photo management
+│   ├── settings.vue          # User preferences and account settings
+│   ├── register.vue          # New user account creation
+│   ├── privacy-policy.vue    # Platform data privacy legal notice
+│   ├── terms-of-service.vue  # User agreement and platform rules
 │   ├── dashboard/
 │   │   └── index.vue         # Student performance dashboard
 │   ├── exam/
@@ -81,9 +87,12 @@ RhyseForge/
 │       ├── dashboard.vue     # Admin metrics & quick actions
 │       ├── upload.vue        # AI question parser interface
 │       ├── users.vue         # User management table
+│       ├── module-requests.vue # Manage user requests for new exams
 │       └── exams/
 │           ├── index.vue     # Exam catalog management
-│           └── create.vue    # New exam builder
+│           ├── create.vue    # New exam builder
+│           └── [id]/
+│               └── questions.vue # Question-level management for specific exams
 ├── server/
 │   └── api/
 │       ├── auth/             # Login, logout, session endpoints
@@ -91,9 +100,12 @@ RhyseForge/
 │       ├── sessions/         # Exam attempt tracking
 │       ├── user/             # Profile read & update (PATCH)
 │       ├── leaderboard.get.ts # Real-time ranking aggregation
+│       ├── subscription/     # Purchase requests and status checks
 │       └── admin/
 │           ├── stats.get.ts  # Live platform metrics
 │           ├── upload.post.ts # AI question ingestion engine
+│           ├── module-requests/ # Handle module request approvals
+│           ├── subscriptions/ # Manage pending payment approvals
 │           └── exams/        # Admin exam management
 ├── composables/
 │   └── useExam.ts            # Exam state management composable
@@ -181,6 +193,7 @@ RhyseForge features a state-of-the-art **Device-Locked Subscription System** to 
 - 🚫 **Anti-Sharing**: Even if someone gets your login credentials, they **cannot access your subscription from another device**.
 - 🖥️ **Hardware Signals**: The system uses high-entropy signals (Canvas fingerprint, WebGL GPU renderer, CPU cores, screen resolution, etc.) to identify your machine.
 - ⚙️ **Admin Reset**: If you upgrade your device, our admin team can securely reset your binding to allow a transfer.
+- 💳 **Manual Payment Verification**: To ensure secure transactions, all purchases go through a manual verification queue where admins confirm payment before activation.
 
 ---
 

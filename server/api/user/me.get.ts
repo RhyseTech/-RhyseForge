@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
   return {
     ...safeUser,
     name: user.name || user.email.split('@')[0],
-    image: null,
+    image: user.image || null,
     beginningModule: user.beginningExam || null,
     boundDeviceId: user.boundDeviceId
       ? '••••' + user.boundDeviceId.slice(-4)

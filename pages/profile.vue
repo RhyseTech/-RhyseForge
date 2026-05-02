@@ -304,6 +304,7 @@ useHead({
 })
 
 const { data: user, refresh } = useFetch('/api/user/me')
+const { getSession } = useAuth()
 const toast = useToast()
 const fileInput = ref(null)
 
@@ -360,6 +361,7 @@ const saveProfile = async () => {
     })
     
     await refresh()
+    await getSession()
     isEditing.value = false
     toast.add({
       title: 'Profile Updated',
@@ -392,5 +394,11 @@ const saveProfile = async () => {
 
 .object-cover {
   object-fit: cover;
+}
+
+:deep(img) {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 </style>

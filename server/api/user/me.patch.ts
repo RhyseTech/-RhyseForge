@@ -15,8 +15,8 @@ export default defineEventHandler(async (event) => {
     const user = await prisma.user.update({
       where: { id: session.id },
       data: {
-        ...(name && { name: name.trim() })
-        // Image handling would need file storage in production
+        ...(name && { name: name.trim() }),
+        ...(image !== undefined && { image })
       }
     })
 
@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
     return {
       ...safeUser,
       name: user.name || user.email.split('@')[0],
-      image: null
+      image: user.image || null
     }
   } catch (error) {
     console.error('Update error:', error)

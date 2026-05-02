@@ -16,6 +16,7 @@ model User {
   email           String         @unique
   password        String
   name            String?
+  image           String?        @db.Text
   phone           String?
   role            String         @default("USER") // USER or ADMIN
   // ── Device Binding (anti-credential-sharing) ──

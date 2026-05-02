@@ -30,7 +30,7 @@
               
               <div class="relative z-10 w-40 h-40">
                 <UAvatar 
-                  :src="user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'Felix'}`"
+                  :src="(isEditing && editForm.image) ? editForm.image : (user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'Felix'}`)"
                   size="3xl"
                   alt="User profile picture"
                   class="ring-8 ring-white dark:ring-gray-800 shadow-2xl w-40 h-40 object-cover overflow-hidden"
